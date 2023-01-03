@@ -3,7 +3,7 @@ module mips_tb;
 reg reset, clock;
 
 // The top level module name should be always "TopLevel"
-TopLevel topLevel(.reset(reset), .clock(clock));
+TopLevel topLevel(.reset(reset), .clk(clock));
 
 integer k;
 initial begin

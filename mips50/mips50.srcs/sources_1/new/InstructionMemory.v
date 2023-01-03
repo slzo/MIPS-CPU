@@ -1,9 +1,22 @@
 `timescale 1ns / 1ps
 
-module InstructionMemory( input [11:0] address, output [31:0] instruction );
-    reg [31:0] instructionmemory[1023:0];
-    initial begin
-        $readmemh("/home/soda/cpu/pipline", instructionmemory);
-    end
-    assign instruction = instructionmemory[address-12'hc00];
+module InstructionMemory(
+    input wire [13:2] Addr,
+	output reg [31:0] Out
+    );
+	
+	reg [31:0] instructions [0:4095];
+	
+	initial begin
+		$readmemh("/home/soda/cpu/pipline/Mips50TestCodeAns/TestCode/HexadecimalCode/88H.asm.txt", instructions);
+	end
+	// PAY ATTENTION HERE!!!!!!
+	always @(*) begin
+		Out = instructions[Addr - 12'hc00];
+//		if( Out[31:26]==6'b000000 && Out[5:0]==6'b001100 )
+//		  $finish;
+	end
+
+	
+
 endmodule
