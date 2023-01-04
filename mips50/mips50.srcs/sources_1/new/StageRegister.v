@@ -46,14 +46,6 @@ module ID_EX(
 	output reg [31:0] Out_PC,
 	output reg [31:0] Out_imm32
 );
-	initial begin
-		Out_Instr = 32'h00000000;
-		Out_RData1 = 0;
-		Out_RData2 = 0;
-		Out_PC = 0;
-		Out_imm32 = 0;
-		Out_WAddr = 0;
-	end
 	always @(posedge clk) begin
 		if(reset | clear) begin
 			Out_RData1 <= 0;
@@ -96,14 +88,6 @@ module EX_MEM(
 	output reg [31:0] Out_RData2,
 	output reg [31:0] Out_PC
 );
-	initial begin
-		Out_ALUResult = 0;
-		Out_RData2 = 0;
-		Out_PC = 32'h00003000;
-		Out_Instr = 0;
-		Out_Overflow = 0;
-		Out_WAddr = 0;
-	end
 	always @(posedge clk) begin
 		if(reset | clear) begin
 			Out_ALUResult <= 0;
@@ -141,14 +125,6 @@ module MEM_WB(
 	output reg [31:0] Out_ALUResult,
 	output reg [31:0] Out_PC
 );
-	initial begin
-		Out_Data = 0;
-		Out_ALUResult = 0;
-		Out_PC = 32'h00003000;
-		Out_Instr = 0;
-		Out_Overflow = 0;
-		Out_WAddr = 0;
-	end
 	always @(posedge clk) begin
 		if(reset) begin
 			Out_Data <= 0;

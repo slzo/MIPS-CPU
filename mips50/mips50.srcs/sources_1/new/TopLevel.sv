@@ -5,14 +5,6 @@ module TopLevel(
 	input wire clk,
     input wire reset
     );
-	// reg clk;
-	// reg reset;
-	// initial begin
-	// 	clk = 0;
-	// 	reset = 1;
-	// 	#5 reset = 0;
-	// end
-	// always #10 clk = ~clk;
 	
 	//Ԫ��������ӿ� 
 	wire [31:0] PC_Out;
@@ -104,7 +96,7 @@ module TopLevel(
 		.Out(NAdder_Out)
 	);
 	
-	IF_ID IF_ID(
+	IF_ID IFID(
 		.PC(PC_Out),
 		.Instr(IM_Out),
 		.clk(clk),
@@ -148,7 +140,7 @@ module TopLevel(
 		.Branch(Branch),
 		.Cmp(Cmp)
 	);
-	CMPSrcMux CMPSrcMux(
+	CMPSrcMux CSM(
 		.RData1(GRF_RData1),
 		.RData2(GRF_RData2),
 		.ID_EX_PC(ID_EX_PC),
@@ -160,7 +152,7 @@ module TopLevel(
 		.Out_rt(CMPSrcMux_rt)
 	);
 	
-	PCSrcMux PCSrcMux(
+	PCSrcMux PSM(
 		.Cmp(Cmp),
 		.RsToPC(RsToPC),
 		.J_imm26(J_imm26),
@@ -175,7 +167,7 @@ module TopLevel(
 		.Out(PCSrcMux_Out)
 	);
 	
-	ID_EX ID_EX(
+	ID_EX IDEX(
 		.RData1(GRF_RData1),
 		.RData2(GRF_RData2),
 		.PC(IF_ID_PC),
@@ -204,7 +196,7 @@ module TopLevel(
 		.Overflow(ALU_Overflow),
 		.Out(ALU_Out)
 	);
-	ALUSrcMux ALUSrcMux(
+	ALUSrcMux ASM(
 		.RData1(ID_EX_RData1),
 		.RData2(ID_EX_RData2),
 		.imm32(ID_EX_imm32),
@@ -217,7 +209,7 @@ module TopLevel(
 		.Out1(ALUSrcMux_Out1),
 		.Out2(ALUSrcMux_Out2)
 	);
-	CMP_LessThan CMP_LessThan(
+	CMP_LessThan CLT(
 		.RData1(ALUSrcMux_Out1),
 		.RData2(ALUSrcMux_Out2),
 		.CalcuSigned(CalcuSigned),
@@ -225,29 +217,33 @@ module TopLevel(
 	);
 	wire start;
 	wire [31:0] mddatare;
-	mdu_operation_t mdop = mdu_operation_t'(MDOp);
+//    mdu_operation_t mdop = mdu_operation_t'(MDOp);
 	MultiplicationDivisionUnit MD(
 		.operand1(ALUSrcMux_Out1),
 		.operand2(ALUSrcMux_Out2),
-		.operation(mdop),
+		.operation(mdu_operation_t'(MDOp)),
 		.clock(clk),
 		.reset(reset),
 		.start(start),
 		.busy(Busy),
 		.dataRead(mddatare)
 	);
-	
-	assign MD_HI = MDOp==3'b000 ? mddatare:MD_HI;
-	assign MD_LO = MDOp==3'b000 ? mddatare:MD_LO;
-	
-	DMSrcMux DMSrcMux(
+//	MDReDesMUX MDR(
+//		.dessrc(MDOp),
+//		.data(mddatare),
+//		.HI(MD_HI),
+//		.LO(MD_LO)
+//	);
+    assign MD_HI = MDOp==3'b000 ? mddatare: MD_HI;
+	assign MD_LO = MDOp==3'b001 ? mddatare: MD_LO;
+	DMSrcMux DSM(
 		.ID_EX_RData2(ID_EX_RData2),
 		.EX_MEM_ALUResult(EX_MEM_ALUResult),
 		.MEM_WB_regWriteMux(regWriteMux_Out),
 		.DMSrc(DMSrc),
 		.Out(DMSrcMux_Out)
 	);
-	EX_ALUResultSrcMux EX_ALUResultSrcMux(
+	EX_ALUResultSrcMux EARSM(
 		.ALUResult(ALU_Out),
 		.LT(CMP_LessThan_Out),
 		.ID_EX_PC(ID_EX_PC),
@@ -256,7 +252,7 @@ module TopLevel(
 		.EX_ALUResultSrc(EX_ALUResultSrc),
 		.Out(EX_ALUResultSrcMux_Out)
 	);
-	EX_MEM EX_MEM(
+	EX_MEM EXMEM(
 		.ALUResult(EX_ALUResultSrcMux_Out),
 		.RData2(DMSrcMux_Out),
 		.PC(ID_EX_PC),
@@ -291,7 +287,7 @@ module TopLevel(
 		.Out(MemEXT_Out)
 	);
 	
-	MEM_WB MEM_WB(
+	MEM_WB MEMWB(
 		.Data(MemEXT_Out),
 		.ALUResult(EX_MEM_ALUResult),
 		.PC(EX_MEM_PC),
@@ -307,7 +303,7 @@ module TopLevel(
 		.Out_ALUResult(MEM_WB_ALUResult),
 		.Out_PC(MEM_WB_PC)
 	);
-	regWriteMux regWriteMux(
+	regWriteMux RWM(
 		.PC(MEM_WB_PC),
 		.ALUResult(MEM_WB_ALUResult),
 		.Data(MEM_WB_Data),
@@ -374,7 +370,6 @@ module TopLevel(
 	
 	EX_MEM_CU EXMEMCU(
 		.EX_MEM_Instr(EX_MEM_Instr),
-		.MEM_WB_Instr(MEM_WB_Instr),
 		.MEM_WB_WAddr(MEM_WB_WAddr),
 		.ALULast(EX_MEM_ALUResult[1:0]),
 		

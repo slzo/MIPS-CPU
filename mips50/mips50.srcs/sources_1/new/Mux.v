@@ -113,3 +113,11 @@ module EX_ALUResultSrcMux(
 				 ALUResult;
 
 endmodule
+
+//module MDReDesMUX(
+//		input wire [3:0] dessrc,
+//		input wire [31:0] data,
+//		output wire [31:0] HI, LO);
+//	assign HI = dessrc==3'b000 ? data:HI;
+//	assign LO = dessrc==3'b001 ? data:LO;
+//endmodule

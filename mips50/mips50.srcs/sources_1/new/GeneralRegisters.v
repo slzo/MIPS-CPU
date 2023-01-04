@@ -22,6 +22,7 @@ module GeneralRegisters(
 			end
 		end
 		else if(RegWrite == 1) begin
+//		    $stop;
 			$display("@%h: $%d <= %h", PC, WReg, Data);
 			if(WReg != 0)
 				registers[WReg] <= Data;

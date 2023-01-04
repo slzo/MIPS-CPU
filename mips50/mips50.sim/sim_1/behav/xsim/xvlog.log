@@ -30,6 +30,7 @@ INFO: [VRFC 10-311] analyzing module PCSrcMux
 INFO: [VRFC 10-311] analyzing module CMPSrcMux
 INFO: [VRFC 10-311] analyzing module DMSrcMux
 INFO: [VRFC 10-311] analyzing module EX_ALUResultSrcMux
+INFO: [VRFC 10-311] analyzing module MDReDesMUX
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/PCAdder.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module PCAdder
 INFO: [VRFC 10-311] analyzing module NAdder
@@ -37,7 +38,6 @@ INFO: [VRFC 10-311] analyzing module Shifter
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/ProgramCounter.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module ProgramCounter
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/StageRegister.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module StageRegister
 INFO: [VRFC 10-311] analyzing module IF_ID
 INFO: [VRFC 10-311] analyzing module ID_EX
 INFO: [VRFC 10-311] analyzing module EX_MEM

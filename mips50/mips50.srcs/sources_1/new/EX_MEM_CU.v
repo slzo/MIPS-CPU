@@ -3,21 +3,17 @@
 
 module EX_MEM_CU(
 	input wire [31:0] EX_MEM_Instr,
-	input wire [31:0] MEM_WB_Instr,
 	input wire [4:0] MEM_WB_WAddr,
 	input wire [1:0] ALULast,
 	
 	output wire [3:0] MemWrite,
 	output wire [3:0] MemRead,
 	output wire LoadSigned,
-	
-	//output wire [3:0] DMSrc,//DM的地址不需要用到寄存器，地址的值是在ALU计算的
 	output wire [3:0] Tnew
     );
 	
-	wire [31:0] Instr = EX_MEM_Instr;
-	wire [5:0] Op = Instr[31:26];
-	wire [5:0] Func = Instr[5:0];
+	wire [5:0] Op = EX_MEM_Instr[31:26];
+	wire [5:0] Func = EX_MEM_Instr[5:0];
 	
 	assign MemWrite = Op == `SB & ALULast[1:0] == 2'b00 ? 4'b0001 :
 					  Op == `SB & ALULast[1:0] == 2'b01 ? 4'b0010 :

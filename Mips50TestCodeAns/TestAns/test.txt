@@ -1,5 +1,3 @@
-Vivado Simulator 2019.1
-Time resolution is 1 ps
 @00003000: $31 <= 00003008
 @00003004: $ 8 <= 00000000
 @00003010: $ 8 <= 00000000
@@ -17131,6 +17129,10 @@ Time resolution is 1 ps
 @000036bc: $ 0 <= 00000000
 @000036c0: $ 0 <= 00000000
 @000036c8: $ 0 <= 00000000
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'mips_tb_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 300000ns
+launch_simulation: Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 9745.762 ; gain = 123.047 ; free physical = 5526 ; free virtual = 10905
+run all
 @000036d0: $ 0 <= 00000000
 @000035f4: $10 <= fffffffe
 @000035f8: $11 <= 17e396f1
@@ -27852,4 +27854,3 @@ Time resolution is 1 ps
 @0000395c: $ 8 <= 1bb26391
 @00003954: $ 8 <= 7a431c5c
 @00003964: $ 2 <= 0000000a
-$finish called at time : 488835 ns : File "/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/MEM_WB_CU.v" Line 39

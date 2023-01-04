@@ -3,8 +3,8 @@ Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
 Running: /home/soda/SoftWare/Vivado/Vivado/2019.1/bin/unwrapped/lnx64.o/xelab -wto eafc7e74c6d34d969ec12676c6a062fd --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot mips_tb_behav xil_defaultlib.mips_tb xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-3091] actual bit length 17 differs from formal bit length 16 for port 'imm16' [/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/TopLevel.sv:131]
-WARNING: [VRFC 10-3091] actual bit length 27 differs from formal bit length 26 for port 'imm26' [/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/TopLevel.sv:132]
+WARNING: [VRFC 10-3091] actual bit length 17 differs from formal bit length 16 for port 'imm16' [/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/TopLevel.sv:123]
+WARNING: [VRFC 10-3091] actual bit length 27 differs from formal bit length 26 for port 'imm26' [/home/soda/cpu/pipline/mips50/mips50.srcs/sources_1/new/TopLevel.sv:124]
 Completed static elaboration
 Starting simulation data flow analysis
 WARNING: [XSIM 43-4099] "/home/soda/cpu/pipline/mips50/mips50.srcs/sim_1/new/mips_tb.v" Line 1. Module mips_tb doesn't have a timescale but at least one module in design has a timescale.

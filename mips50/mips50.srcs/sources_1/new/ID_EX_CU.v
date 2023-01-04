@@ -26,11 +26,10 @@ module ID_EX_CU(
     );
 	
 	//控制转发	
-	wire [31:0] Instr = ID_EX_Instr[31:0];
 	wire [5:0] Op = ID_EX_Instr[31:26];
 	wire [5:0] Func = ID_EX_Instr[5:0];	
 	
-	assign start = !Busy & (Op==`CALCU &(Func == `MULT_FUNC | Func == `MULTU_FUNC| Func == `DIV_FUNC | Func == `DIVU_FUNC ));
+	assign start = !Busy & Op==`CALCU &(Func == `MULT_FUNC | Func == `MULTU_FUNC| Func == `DIV_FUNC | Func == `DIVU_FUNC );
 	assign MDOp = Op==`CALCU ?
 	              Func==`MFHI_FUNC?3'b000:
 	              Func==`MFLO_FUNC?3'b001:
@@ -70,8 +69,8 @@ module ID_EX_CU(
 	
 
 	
-	wire [4:0] RAddr1= Instr[25:21];//不需要在意Instr具体是什么指令，只要转发过来就行
-	wire [4:0] RAddr2 = Instr[20:16];//因为如果是不相关的指令，转发过来也没用
+	wire [4:0] RAddr1= ID_EX_Instr[25:21];//不需要在意Instr具体是什么指令，只要转发过来就行
+	wire [4:0] RAddr2 = ID_EX_Instr[20:16];//因为如果是不相关的指令，转发过来也没用
 							//这里要优先判断JAL和jalr，因为他们永远不需要转发
 	assign ALUSrc_RData1 = RAddr1 == EX_MEM_WAddr && RAddr1 != 0 ? 4'b0001 :
 						   RAddr1 == MEM_WB_WAddr && RAddr1 != 0 ? 4'b0010 :

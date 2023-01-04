@@ -10,7 +10,7 @@ module InstructionMemory(
 	initial begin
 		$readmemh("/home/soda/cpu/pipline/Mips50TestCodeAns/TestCode/HexadecimalCode/0hJ.asm.txt", instructions);
 	end
-	// PAY ATTENTION HERE!!!!!!
+
 	always @(*) begin
 		Out = instructions[Addr - 12'hc00];
 //		if( Out[31:26]==6'b000000 && Out[5:0]==6'b001100 )

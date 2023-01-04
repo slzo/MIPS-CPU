@@ -32,14 +32,13 @@ module IF_ID_CU(
 	output wire [4:0] WAddr
     );
 	//处理数据通路信号
-	wire [31:0] Instr = IF_ID_Instr[31:0];
 	wire [5:0] Op = IF_ID_Instr[31:26];
 	wire [5:0] Func = IF_ID_Instr[5:0];
 	
 
 	assign Branch = Op == `BEQ ? 4'b0001 :
 					Op == `BNE ? 4'b0010 :
-					Op == `BLTZ & Instr[20:16] != `BGEZ_RT ? 4'b0011 :
+					Op == `BLTZ & IF_ID_Instr[20:16] != `BGEZ_RT ? 4'b0011 :
 					Op == `BLEZ ? 4'b0100 :
 					Op == `BGTZ ? 4'b0101 :
 					Op == `BGEZ ? 4'b0110 :
@@ -73,14 +72,14 @@ module IF_ID_CU(
 					   Func == `SUB_FUNC | Func == `OR_FUNC | Func == `AND_FUNC | Func == `XOR_FUNC |
 					   Func == `NOR_FUNC | Func == `SLLV_FUNC | Func == `SRLV_FUNC | Func == `SRAV_FUNC|
 					   Func == `SLL_FUNC | Func == `SRL_FUNC | Func == `SRA_FUNC |
-					   Func == `SLT_FUNC | Func == `SLTU_FUNC) ? Instr[25:21] : 5'b00000;
+					   Func == `SLT_FUNC | Func == `SLTU_FUNC) ? IF_ID_Instr[25:21] : 5'b00000;
 	wire [4:0] RAddr2 =Op == `BEQ | Op == `BNE | Op == `BLEZ | Op == `BGTZ |
 					   Op == `CALCU & (Func == `ADDU_FUNC | Func == `SUBU_FUNC | Func == `ADD_FUNC |
 					   Func == `SUB_FUNC | Func == `OR_FUNC | Func == `AND_FUNC | Func == `XOR_FUNC |
 					   Func == `NOR_FUNC | Func == `SLLV_FUNC | Func == `SRLV_FUNC | Func == `SRAV_FUNC|
 					   Func == `SLT_FUNC | Func == `SLTU_FUNC | Func == `SLL_FUNC | Func == `SRL_FUNC | 
 					   Func == `SRA_FUNC) |
-					   Op == `SB | Op == `SH | Op == `SW ? Instr[20:16] : 5'b00000;
+					   Op == `SB | Op == `SH | Op == `SW ? IF_ID_Instr[20:16] : 5'b00000;
 	
 	assign CMPSrc_rs = RAddr1 == EX_MEM_WAddr && RAddr1 != 0 ? 4'b0001 : 
 					   RAddr1 == MEM_WB_WAddr && RAddr1 != 0 ? 4'b0010 :
@@ -97,10 +96,10 @@ module IF_ID_CU(
 					   Func == `NOR_FUNC | Func == `SLLV_FUNC | Func == `SRLV_FUNC | Func == `SRAV_FUNC|
 					   Func == `SLL_FUNC | Func == `SRL_FUNC | Func == `SRA_FUNC |
 					   Func == `SLT_FUNC | Func == `SLTU_FUNC |
-					   Func == `JALR_FUNC | Func == `MFHI_FUNC | Func == `MFLO_FUNC) ? Instr[15:11] :
+					   Func == `JALR_FUNC | Func == `MFHI_FUNC | Func == `MFLO_FUNC) ? IF_ID_Instr[15:11] :
 					   Op == `ORI | Op == `ADDI | Op == `ADDIU | Op == `ANDI | Op == `XORI |
 					   Op == `LUI | Op == `SLTI | Op == `SLTIU | Op == `LB | Op == `LBU |
-					   Op ==`LH | Op == `LHU | Op == `LW ? Instr[20:16] :
+					   Op ==`LH | Op == `LHU | Op == `LW ? IF_ID_Instr[20:16] :
 					   Op == `JAL ? 5'b11111 : 5'b00000;
 	
 	
