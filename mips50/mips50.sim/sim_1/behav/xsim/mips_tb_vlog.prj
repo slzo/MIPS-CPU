@@ -12,10 +12,16 @@ verilog xil_defaultlib  \
 "../../../../mips50.srcs/sources_1/new/InstructionMemory.v" \
 "../../../../mips50.srcs/sources_1/new/MEM_WB_CU.v" \
 "../../../../mips50.srcs/sources_1/new/MemoryExt.v" \
-"../../../../mips50.srcs/sources_1/new/MultiplicationDivisionUnit.v" \
+"../../../../mips50.srcs/sources_1/new/Mux.v" \
+"../../../../mips50.srcs/sources_1/new/PCAdder.v" \
 "../../../../mips50.srcs/sources_1/new/ProgramCounter.v" \
 "../../../../mips50.srcs/sources_1/new/StageRegister.v" \
-"../../../../mips50.srcs/sources_1/new/TopLevel.v" \
+
+sv xil_defaultlib  \
+"../../../../mips50.srcs/sources_1/new/MultiplicationDivisionUnit.sv" \
+"../../../../mips50.srcs/sources_1/new/TopLevel.sv" \
+
+verilog xil_defaultlib  \
 "../../../../mips50.srcs/sim_1/new/mips_tb.v" \
 
 # compile glbl module

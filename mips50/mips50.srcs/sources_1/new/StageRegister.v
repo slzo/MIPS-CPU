@@ -1,8 +1,5 @@
 `timescale 1ns / 1ps
 `include "Define.v"
-module StageRegister(
-    );
-endmodule
 
 module IF_ID(
 	input wire [31:0] PC,

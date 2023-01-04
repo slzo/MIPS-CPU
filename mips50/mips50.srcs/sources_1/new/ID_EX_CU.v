@@ -12,8 +12,7 @@ module ID_EX_CU(
 	output wire [3:0] ALUOp,
 	output wire ALUSrc1, ALUSrc2,       // to seperate the transmit and the data path
 	output wire CalcuSigned,
-	output wire [1:0] MDOp,
-	output wire [1:0] MDWrite,
+	output wire [2:0] MDOp,
 	output wire [3:0] EX_ALUResultSrc,
 	
 	
@@ -22,14 +21,26 @@ module ID_EX_CU(
 	output wire [3:0] DMSrc,
 	output wire [3:0] Tnew,
 	
-	output wire Install
+	output wire Install,
+	output wire start
     );
 	
+	//控制转发	
+	wire [31:0] Instr = ID_EX_Instr[31:0];
+	wire [5:0] Op = ID_EX_Instr[31:26];
+	wire [5:0] Func = ID_EX_Instr[5:0];	
 	
-	
-	assign MDOp = Op == `CALCU ? 
-				  Func == `MULT_FUNC | Func == `MULTU_FUNC? 2'b01 :
-				  Func == `DIV_FUNC | Func == `DIVU_FUNC ? 2'b10 : 2'b00 : 2'b00;
+	assign start = !Busy & (Op==`CALCU &(Func == `MULT_FUNC | Func == `MULTU_FUNC| Func == `DIV_FUNC | Func == `DIVU_FUNC ));
+	assign MDOp = Op==`CALCU ?
+	              Func==`MFHI_FUNC?3'b000:
+	              Func==`MFLO_FUNC?3'b001:
+	              Func==`MTHI_FUNC?3'b010:
+	              Func==`MTLO_FUNC?3'b011:
+	              Func==`MULT_FUNC?3'b100:
+	              Func==`MULTU_FUNC?3'b101:
+	              Func==`DIV_FUNC?3'b110:
+	              Func==`DIVU_FUNC?3'b111:
+	              MDOp : MDOp;
 	assign CalcuSigned = Op == `ADDI | Op == `SLTI | Op == `CALCU &
 						 Func == `ADD_FUNC | Func == `SUB_FUNC | Func == `SLT_FUNC |
 						 Func == `MULT_FUNC | Func == `DIV_FUNC;
@@ -39,8 +50,6 @@ module ID_EX_CU(
 					Op == `XORI | Op == `LUI | Op == `LB | Op == `LBU |
 					Op == `LH | Op == `LHU | Op == `LW | Op == `SB |
 					Op == `SH | Op == `SW | Op == `SLTI | Op == `SLTIU;
-	assign MDWrite = Op == `CALCU & Func == `MTHI_FUNC ? 2'b01 :
-					 Op == `CALCU & Func == `MTLO_FUNC ? 2'b10 : 2'b00;
 	assign EX_ALUResultSrc = Op == `CALCU & (Func == `SLT_FUNC | Func == `SLTU_FUNC) |
 							 Op == `SLTI | Op == `SLTIU ? 4'h1 :
 							 Op == `JAL | Op == `CALCU & Func == `JALR_FUNC ? 4'h2 :
@@ -59,10 +68,7 @@ module ID_EX_CU(
 				   
 	
 	
-	//控制转发	
-	wire [31:0] Instr = ID_EX_Instr[31:0];
-	wire [5:0] Op = ID_EX_Instr[31:26];
-	wire [5:0] Func = ID_EX_Instr[5:0];
+
 	
 	wire [4:0] RAddr1= Instr[25:21];//不需要在意Instr具体是什么指令，只要转发过来就行
 	wire [4:0] RAddr2 = Instr[20:16];//因为如果是不相关的指令，转发过来也没用

@@ -6,9 +6,6 @@ module ProgramCounter(
 	input wire enable,
 	output reg [31:0] Out
     );
-	initial begin
-		Out <= 32'h00003000;
-	end
 	always @(posedge clk) begin
 		if(reset) begin
 			Out <= 32'h00003000;

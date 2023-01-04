@@ -25,14 +25,13 @@ module MultiplicationDivisionUnit(
 
     input _mdu_int_t operand1,
     input _mdu_int_t operand2,
-    input mdu_operation_t operation,
+    input wire operation,
 
     input logic start,
 
     output logic busy,
     output _mdu_int_t dataRead
 );
-
 // Results
 _mdu_int_t hi, lo;
 

@@ -13,8 +13,7 @@ module MEM_WB_CU(
 	wire [5:0] Op = MEM_WB_Instr[31:26];
 	wire [5:0] Func = MEM_WB_Instr[5:0];
 	
-	assign RegWrite = (Op == `CALCU & (Func == `ADD_FUNC | Func == `SUB_FUNC) |
-					  Op == `ADDI) & Overflow == 0 |
+	assign RegWrite = (((Op == `CALCU & (Func == `ADD_FUNC | Func == `SUB_FUNC)) |Op == `ADDI) & Overflow == 0) |
 					  Op == `CALCU & (Func == `ADDU_FUNC | Func == `SUBU_FUNC | 
 					  Func == `OR_FUNC |
 					  Func == `AND_FUNC | Func == `XOR_FUNC | Func == `NOR_FUNC |
@@ -28,7 +27,7 @@ module MEM_WB_CU(
 					  Op == `LB | Op == `LBU | Op == `LH |
 					  Op == `LHU | Op == `LW |
 					  Op == `JAL;
-	assign PCToReg = Op == `JAL | Op == `CALCU & Func == `JALR_FUNC;
+	assign PCToReg = Op == `JAL | (Op == `CALCU & Func == `JALR_FUNC);
 
 	assign MemToReg = Op == `LB | Op == `LBU | Op == `LH |
 					  Op == `LHU | Op == `LW;
@@ -36,6 +35,11 @@ module MEM_WB_CU(
 	//处理暂停、转发信号
 	assign Tnew = 0;
 	
+	// syscall
+	always@(*)begin
+        if(Op==6'b000000 && Func==6'b001100)
+           $finish;
+	end
 
 
 endmodule
