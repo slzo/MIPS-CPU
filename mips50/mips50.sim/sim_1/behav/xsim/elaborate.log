@@ -28,6 +28,7 @@ Compiling module xil_defaultlib.ALU
 Compiling module xil_defaultlib.ALUSrcMux
 Compiling module xil_defaultlib.CMP_LessThan
 Compiling module xil_defaultlib.MultiplicationDivisionUnit
+Compiling module xil_defaultlib.MDReDesMUX
 Compiling module xil_defaultlib.DMSrcMux
 Compiling module xil_defaultlib.EX_ALUResultSrcMux
 Compiling module xil_defaultlib.EX_MEM

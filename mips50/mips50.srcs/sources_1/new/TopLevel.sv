@@ -53,7 +53,7 @@ module TopLevel(
 	wire Cmp;
 	
 	wire ALUSrc1, ALUSrc2, CalcuSigned;
-	wire [2:0] MDOp;
+	wire [3:0] MDOp;
 	wire [3:0] ALUOp, EX_ALUResultSrc, ALUSrc_RData1, ALUSrc_RData2, DMSrc;
 	wire Busy;
 
@@ -228,14 +228,14 @@ module TopLevel(
 		.busy(Busy),
 		.dataRead(mddatare)
 	);
-//	MDReDesMUX MDR(
-//		.dessrc(MDOp),
-//		.data(mddatare),
-//		.HI(MD_HI),
-//		.LO(MD_LO)
-//	);
-    assign MD_HI = MDOp==3'b000 ? mddatare: MD_HI;
-	assign MD_LO = MDOp==3'b001 ? mddatare: MD_LO;
+	MDReDesMUX MDR(
+		.dessrc(MDOp),
+		.data(mddatare),
+		.HI(MD_HI),
+		.LO(MD_LO)
+	);
+//    assign MD_HI = MDOp==3'b000 ? mddatare: MD_HI;
+//	assign MD_LO = MDOp==3'b001 ? mddatare: MD_LO;
 	DMSrcMux DSM(
 		.ID_EX_RData2(ID_EX_RData2),
 		.EX_MEM_ALUResult(EX_MEM_ALUResult),

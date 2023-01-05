@@ -32,6 +32,10 @@ module MultiplicationDivisionUnit(
     output logic busy,
     output _mdu_int_t dataRead
 );
+always @(operation) begin
+//    $display("here:::: %h",operation);
+//    $stop;
+end
 // Results
 _mdu_int_t hi, lo;
 
@@ -52,10 +56,14 @@ _mdu_long_t resultUnsignedDiv;
 always_comb begin
     resultSignedMul   = $signed(savedOperand1) * $signed(savedOperand2);
     resultUnsignedMul = savedOperand1 * savedOperand2;
-    resultSignedDiv   = {
-        $signed(savedOperand1) % $signed(savedOperand2),
-        $signed(savedOperand1) / $signed(savedOperand2)
-    };
+    if(savedOperand1 == 32'h80000000 && savedOperand2 == 32'hffffffff) begin
+        resultSignedDiv = {32'b0, savedOperand1};
+    end else begin
+        resultSignedDiv   = {
+            $signed(savedOperand1) % $signed(savedOperand2),
+            $signed(savedOperand1) / $signed(savedOperand2)
+        };
+    end
     resultUnsignedDiv = {
         savedOperand1 % savedOperand2,
         savedOperand1 / savedOperand2
@@ -93,7 +101,6 @@ always_ff @ (posedge clock) begin
                         if (remainingCycleCount != 0)
                             // This shouldn't happen
                             $stop;
-
                         case (operation)
                             MDU_START_SIGNED_MUL, MDU_START_UNSIGNED_MUL: remainingCycleCount <= `MUL_DELAY_CYCLES;
                             MDU_START_SIGNED_DIV, MDU_START_UNSIGNED_DIV: remainingCycleCount <= `DIV_DELAY_CYCLES;
@@ -104,8 +111,14 @@ always_ff @ (posedge clock) begin
                         savedOperation <= operation;
                     end
                 end
-                MDU_WRITE_HI: hi <= operand1;
-                MDU_WRITE_LO: lo <= operand1;
+                MDU_WRITE_HI:begin
+//                    $stop; 
+                    hi <= operand1;
+                end
+                MDU_WRITE_LO: begin
+//                    $stop;
+                    lo <= operand1;
+                end
             endcase
         end
     end

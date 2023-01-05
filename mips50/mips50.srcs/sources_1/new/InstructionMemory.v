@@ -8,7 +8,7 @@ module InstructionMemory(
 	reg [31:0] instructions [0:4095];
 	
 	initial begin
-		$readmemh("/home/soda/cpu/pipline/Mips50TestCodeAns/TestCode/HexadecimalCode/0hJ.asm.txt", instructions);
+		$readmemh("/home/soda/cpu/pipline/Mips50TestCodeAns/TestCode/HexadecimalCode/28H.asm.txt", instructions);
 	end
 
 	always @(*) begin

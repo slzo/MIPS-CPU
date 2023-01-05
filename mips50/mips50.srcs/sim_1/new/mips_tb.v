@@ -21,7 +21,8 @@ initial begin
 
     #1;
     for (k = 0; k < 2000000000; k = k + 1) begin
-//        $stop;
+//        if(k>542)
+//            $stop;
         clock = 1; #5;
         clock = 0; #5;
     end

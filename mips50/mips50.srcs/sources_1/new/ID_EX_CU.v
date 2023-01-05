@@ -12,7 +12,7 @@ module ID_EX_CU(
 	output wire [3:0] ALUOp,
 	output wire ALUSrc1, ALUSrc2,       // to seperate the transmit and the data path
 	output wire CalcuSigned,
-	output wire [2:0] MDOp,
+	output wire [3:0] MDOp,
 	output wire [3:0] EX_ALUResultSrc,
 	
 	
@@ -31,15 +31,15 @@ module ID_EX_CU(
 	
 	assign start = !Busy & Op==`CALCU &(Func == `MULT_FUNC | Func == `MULTU_FUNC| Func == `DIV_FUNC | Func == `DIVU_FUNC );
 	assign MDOp = Op==`CALCU ?
-	              Func==`MFHI_FUNC?3'b000:
-	              Func==`MFLO_FUNC?3'b001:
-	              Func==`MTHI_FUNC?3'b010:
-	              Func==`MTLO_FUNC?3'b011:
-	              Func==`MULT_FUNC?3'b100:
-	              Func==`MULTU_FUNC?3'b101:
-	              Func==`DIV_FUNC?3'b110:
-	              Func==`DIVU_FUNC?3'b111:
-	              MDOp : MDOp;
+	              Func==`MFHI_FUNC?4'b0000:
+	              Func==`MFLO_FUNC?4'b0001:
+	              Func==`MTHI_FUNC?4'b0010:
+	              Func==`MTLO_FUNC?4'b0011:
+	              Func==`MULT_FUNC?4'b0100:
+	              Func==`MULTU_FUNC?4'b0101:
+	              Func==`DIV_FUNC?4'b0110:
+	              Func==`DIVU_FUNC?4'b0111:
+	              MDOp : 4'b1000;
 	assign CalcuSigned = Op == `ADDI | Op == `SLTI | Op == `CALCU &
 						 Func == `ADD_FUNC | Func == `SUB_FUNC | Func == `SLT_FUNC |
 						 Func == `MULT_FUNC | Func == `DIV_FUNC;

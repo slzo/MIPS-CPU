@@ -12,7 +12,6 @@ module ALUSrcMux(
 	output wire [31:0] Out1,
 	output wire [31:0] Out2
 	);
-	
 	assign Out1 = ALUSrc1 == 1 ? imm32 :
 				  ALUSrc_RData1 == 1 ? EX_MEM_ALUResult :
 				  ALUSrc_RData1 == 2 ? MEM_WB_regWriteMux :
@@ -114,10 +113,15 @@ module EX_ALUResultSrcMux(
 
 endmodule
 
-//module MDReDesMUX(
-//		input wire [3:0] dessrc,
-//		input wire [31:0] data,
-//		output wire [31:0] HI, LO);
-//	assign HI = dessrc==3'b000 ? data:HI;
-//	assign LO = dessrc==3'b001 ? data:LO;
-//endmodule
+module MDReDesMUX(
+		input wire [3:0] dessrc,
+		input wire [31:0] data,
+		output wire [31:0] HI, LO);
+//    always @(*) begin
+//        if(dessrc==3'b000 | dessrc==3'b001)
+//            $stop;
+//    end
+    assign HI = dessrc==4'b0000 ? data:HI;
+    assign LO = dessrc==4'b0001 ? data:LO;
+
+endmodule
