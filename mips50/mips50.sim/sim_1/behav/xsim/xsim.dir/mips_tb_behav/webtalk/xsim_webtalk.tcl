@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Thu Jan  5 22:16:28 2023" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Fri Jan  6 20:42:28 2023" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2019.1 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2552052" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "LIN64" -context "software_version_and_target_device"
@@ -14,19 +14,19 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "98d81ddf-9f47-4b2a-8f83-30c802db4483" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "eafc7e74c6d34d969ec12676c6a062fd" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "133" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "232" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "unknown" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "unknown" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "AMD Ryzen 7 4800H with Radeon Graphics" -context "user_environment"
-webtalk_add_data -client project -key cpu_speed -value "1907.329 MHz" -context "user_environment"
+webtalk_add_data -client project -key cpu_speed -value "1749.659 MHz" -context "user_environment"
 webtalk_add_data -client project -key total_processors -value "1" -context "user_environment"
 webtalk_add_data -client project -key system_ram -value "16.000 GB" -context "user_environment"
 webtalk_register_client -client xsim
 webtalk_add_data -client xsim -key Command -value "xsim" -context "xsim\\command_line_options"
 webtalk_add_data -client xsim -key trace_waveform -value "true" -context "xsim\\usage"
-webtalk_add_data -client xsim -key runtime -value "11435 ns" -context "xsim\\usage"
+webtalk_add_data -client xsim -key runtime -value "11095 ns" -context "xsim\\usage"
 webtalk_add_data -client xsim -key iteration -value "2" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Time -value "0.09_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Simulation_Memory -value "119300_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 3107001223 -regid "" -xml /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Simulation_Time -value "0.10_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Simulation_Memory -value "119564_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 3423851126 -regid "" -xml /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/soda/cpu/pipline/mips50/mips50.sim/sim_1/behav/xsim/xsim.dir/mips_tb_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate

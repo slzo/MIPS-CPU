@@ -1,51 +1,23 @@
 `timescale 1ns / 1ps
+`include "Defines.v"
 
 module ALU(
-    input wire [31:0] RData1,
-    input wire [31:0] RData2,
-    input wire [3:0] ALUOp,
-	input wire CalcuSigned,
-	output reg Overflow,
-    output reg [31:0] Out
+    input [31:0] A,
+    input [31:0] B,
+    output [31:0] C,
+    input [3:0] ALUOp
     );
-	
-	always @(*) begin
-		Overflow = 0;
-		if(ALUOp == 4'h0) begin
-			Out = RData1 + RData2;
-			if(CalcuSigned)
-				if( RData1[31]==RData2[31] && Out[31]!=RData1[31])
-					Overflow = 1;
-		end
-		else if(ALUOp == 4'h1) begin
-			Out = RData1 - RData2;
-			if(CalcuSigned)
-				if( RData1[31]!=RData2[31] && Out[31]!=RData1[31])
-					Overflow = 1;
-		end
-		else if(ALUOp == 4'h2) begin
-			Out = RData1 | RData2;
-		end
-		else if(ALUOp == 4'h3) begin
-			Out = RData1 & RData2;
-		end
-		else if(ALUOp == 4'h4) begin
-			Out = RData1 ^ RData2;
-		end
-		else if(ALUOp == 4'h5) begin
-			Out = ~(RData1 | RData2);
-		end
-		else if(ALUOp == 4'h6) begin
-			Out = RData2 << RData1[4:0];
-		end
-		else if(ALUOp == 4'h7) begin
-			Out = RData2 >> RData1[4:0];
-		end
-		else if(ALUOp == 4'h8) begin
-			Out = $signed(RData2) >>> RData1[4:0];
-		end
-		else begin
-			Out = 32'h00000000;
-		end
-	end
+	assign C = (ALUOp == `ALU_ADD)  ? (A + B) :
+			   (ALUOp == `ALU_SUB)  ? (A - B) :
+			   (ALUOp == `ALU_OR)   ? (A | B) :
+			   (ALUOp == `ALU_SLL)  ? (B << A[4:0]) :
+			   (ALUOp == `ALU_SLT)  ? (($signed(A) < $signed(B)) ? 1 : 0) :
+			   (ALUOp == `ALU_SLTU) ? ((A < B) ? 1 : 0) :
+			   (ALUOp == `ALU_AND)  ? (A & B) :
+			   (ALUOp == `ALU_NOR)  ? ~(A | B) :
+			   (ALUOp == `ALU_XOR)  ? (A ^ B) :
+			   (ALUOp == `ALU_SRA)  ? $signed(($signed(B) >>> A[4:0])) :
+			   (ALUOp == `ALU_SRL)  ? (B >> A[4:0]) : 32'hffffffff;
+
+
 endmodule

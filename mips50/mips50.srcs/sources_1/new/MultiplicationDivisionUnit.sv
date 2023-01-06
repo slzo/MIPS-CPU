@@ -32,10 +32,7 @@ module MultiplicationDivisionUnit(
     output logic busy,
     output _mdu_int_t dataRead
 );
-always @(operation) begin
-//    $display("here:::: %h",operation);
-//    $stop;
-end
+
 // Results
 _mdu_int_t hi, lo;
 
@@ -111,14 +108,8 @@ always_ff @ (posedge clock) begin
                         savedOperation <= operation;
                     end
                 end
-                MDU_WRITE_HI:begin
-//                    $stop; 
-                    hi <= operand1;
-                end
-                MDU_WRITE_LO: begin
-//                    $stop;
-                    lo <= operand1;
-                end
+                MDU_WRITE_HI: hi <= operand1;
+                MDU_WRITE_LO: lo <= operand1;
             endcase
         end
     end

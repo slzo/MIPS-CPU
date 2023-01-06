@@ -1,57 +1,54 @@
 `timescale 1ns / 1ps
+`include "Defines.v"
 
 module DataMemory(
-	input wire [31:0] PC,
-    input wire [15:2] Addr,
-    input wire [31:0] Data,
-    input wire reset,
-	input wire clk,
-    input wire [3:0] MemWrite,
-    output reg [31:0] Out
+    input clk,
+    input reset,
+    input WE,
+	input [31:0] PC,
+    input [31:0] A,
+    input [31:0] WD,
+    output [31:0] RD,
+    input [1:0] SSel
     );
-	reg [31:0] datamemory [0:2047];
-	integer i;
-	
-	always @(posedge clk) begin
-		if(reset) begin
-			for(i = 0; i < 2048; i = i + 1)
-				datamemory[i] <= 32'h00000000;
-		end
-		else begin
-			if(MemWrite == 4'b0001) begin
-				datamemory[Addr][7:0] <= Data[7:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {datamemory[Addr][31:8], Data[7:0]});
-			end
-			else if(MemWrite == 4'b0010) begin
-				datamemory[Addr][15:8] <= Data[7:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {datamemory[Addr][31:16], Data[7:0], datamemory[Addr][7:0]});
-			end
-			else if(MemWrite == 4'b0100) begin
-				datamemory[Addr][23:16] <= Data[7:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {datamemory[Addr][31:24], Data[7:0], datamemory[Addr][15:0]});
-			end
-			else if(MemWrite == 4'b1000) begin
-				datamemory[Addr][31:24] <= Data[7:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {Data[7:0], datamemory[Addr][23:0]});
-			end
-			else if(MemWrite == 4'b0011) begin
-				datamemory[Addr][15:0] <= Data[15:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {datamemory[Addr][31:16], Data[15:0]});
-			end
-			else if(MemWrite == 4'b1100) begin
-				datamemory[Addr][31:16] <= Data[15:0];
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, {Data[15:0], datamemory[Addr][15:0]});
-			end
-			else if(MemWrite == 4'b1111) begin
-				datamemory[Addr] <= Data;
-				$display("@%h: *%h <= %h", PC, {{16{1'b0}}, Addr[15:2], {2{1'b0}}}, Data);
-			end
-			else begin
-			end
+	reg [31:0] datamemory[4095:0];
+	integer i, file;
+	reg [31:0] WData;
+	wire [31:0] Addr;
+	initial begin
+	    file = $fopen("/home/soda/cpu/pipline/Mips50TestCodeAns/TestAns/myans.txt");
+//	    file = 1;
+		for(i=0;i<4096;i = i + 1) begin
+			datamemory[i] = 32'h0;
 		end
 	end
 	always @(*) begin
-		Out <= datamemory[Addr];
+		if(SSel == 2'b00) begin
+			WData = WD;
+		end
+		else if(SSel == 2'b01) begin
+			WData = (A[1:0] == 2'b00) ? {datamemory[A[15:2]][31:8],WD[7:0]} :
+						(A[1:0] == 2'b01) ? {datamemory[A[15:2]][31:16],WD[7:0],datamemory[A[15:2]][7:0]} :
+						(A[1:0] == 2'b10) ? {datamemory[A[15:2]][31:24],WD[7:0],datamemory[A[15:2]][15:0]} :
+														{WD[7:0],datamemory[A[15:2]][23:0]};
+		end
+		else if(SSel == 2'b10) begin
+			WData = (A[1] == 1'b0) ? {datamemory[A[15:2]][31:16],WD[15:0]} : {WD[15:0],datamemory[A[15:2]][15:0]};
+		end
 	end
-	
+	assign Addr = {A[31:2],2'b00};
+	always @(posedge clk) begin
+		if(reset == 1) begin
+			for(i=0;i<12287;i = i + 1) begin
+				datamemory[i] <= 32'h0;
+			end
+		end
+		else begin
+			 if(WE == 1) begin
+				datamemory[A[15:2]] <= WData;
+				$fdisplay(file, "@%h: *%h <= %h",PC, Addr, WData);
+			 end
+		end
+	end
+	assign RD = datamemory[A[15:2]];
 endmodule

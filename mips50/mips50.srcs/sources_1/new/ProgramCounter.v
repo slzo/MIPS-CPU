@@ -1,20 +1,24 @@
 `timescale 1ns / 1ps
+
 module ProgramCounter(
-    input wire [31:0] Addr,
-	input wire clk,
-	input wire reset,
-	input wire enable,
-	output reg [31:0] Out
+    input clk,
+    input reset,
+    input En,
+    input [31:0] NPC,
+    output reg [31:0] PC
     );
+	initial begin
+		PC <= 32'h3000;
+	end
 	always @(posedge clk) begin
 		if(reset) begin
-			Out <= 32'h00003000;
-		end
-		else if(enable) begin
-			Out <= Addr;
+			PC <= 32'h3000;
 		end
 		else begin
-			Out <= Out;
+			if(En) begin
+				PC <= NPC;
+			end
 		end
-	end	
+	end
+
 endmodule
